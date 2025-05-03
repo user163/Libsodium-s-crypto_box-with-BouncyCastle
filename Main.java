@@ -32,18 +32,18 @@ public class Main {
 	
 	public static void main(String[] args) throws Exception {
 
-		Security.addProvider(new BouncyCastleProvider());
+	    Security.addProvider(new BouncyCastleProvider());
 		
-		// Step 1: Create test keypair
-		KeyPairGenerator kpg = KeyPairGenerator.getInstance("X25519");
-		KeyPair kp = kpg.generateKeyPair();	    
-		PrivateKey privKey = kp.getPrivate();
-		PublicKey pubKey = kp.getPublic();
+	    // Step 1: Create test keypair
+	    KeyPairGenerator kpg = KeyPairGenerator.getInstance("X25519");
+	    KeyPair kp = kpg.generateKeyPair();	    
+	    PrivateKey privKey = kp.getPrivate();
+	    PublicKey pubKey = kp.getPublic();
 		
 	    // Step 2: Create X25519 shared secret
-		SecretKey secKey = generateSecretKey(privKey, pubKey);
+	    SecretKey secKey = generateSecretKey(privKey, pubKey);
 		
-		// Step 3: Create key with HSalsa20(k, 0)
+	    // Step 3: Create key with HSalsa20(k, 0)
 	    HSalsa20 hSalsa20 = new HSalsa20();
 	    byte[] finalKey = hSalsa20.getData(secKey.getEncoded(), new byte[16]);
 	    
@@ -65,7 +65,7 @@ public class Main {
 	    Key privKeyLazy = Key.fromBytes(privKeyRaw);
 	    com.goterl.lazysodium.utils.KeyPair keyPairLazy = new com.goterl.lazysodium.utils.KeyPair(pubKeyLazy, privKeyLazy);
 	    
-		SodiumJava sodium = new SodiumJava();
+	    SodiumJava sodium = new SodiumJava();
 	    LazySodiumJava lazySodium = new LazySodiumJava(sodium, StandardCharsets.UTF_8);
 				
 	    String macCiphertext = lazySodium.cryptoBoxEasy(plaintext, nonce , keyPairLazy);
